@@ -74,3 +74,25 @@ cumsum(dat) # cumsum() returns the cumulative sum value
 cod_collapse = cod_can_total %>%
   mutate(historical_max_catch = cummax(total_catch),
          collapse = total_catch <= 0.1*historical_max_catch)
+head(cod_collapse)
+tail(cod_collapse)
+
+cod_collapse_year = cod_collapse %>%
+  filter(collapse == TRUE) %>%
+  summarize(year=min(year)) %>%
+  pull(year)
+
+ggplot() +
+  geom_line(aes(x=year, y=total_catch, color=collapse), data=cod_collapse) + 
+  geom_vline(xintercept = cod_collapse_year)
+
+## global stock collapse
+
+collapse = fish %>% 
+  filter(!is.na(TCbest)) %>%
+  group_by(stockid) %>%
+  mutate(historical_max_catch = cummax(TCbest),
+         current_collapse = TCbest < 0.10 * historical_max_catch,
+         collapsed_yet = cumsum(current_collapse) > 0) %>%
+  ungroup()
+            
