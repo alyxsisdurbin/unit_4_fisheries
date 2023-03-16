@@ -92,7 +92,16 @@ collapse = fish %>%
   filter(!is.na(TCbest)) %>%
   group_by(stockid) %>%
   mutate(historical_max_catch = cummax(TCbest),
-         current_collapse = TCbest < 0.10 * historical_max_catch,
+         current_collapse = TCbest < 0.1 * historical_max_catch,
          collapsed_yet = cumsum(current_collapse) > 0) %>%
   ungroup()
+
+glimpse(collapse)
+
+collapse_yr = collapse %>%
+  group_by(stockid) %>% 
+  filter(collapsed_yet == TRUE) %>%
+  summarize(first_collapse_yr = min(year)) %>%
+  ungroup()
+
             
