@@ -67,7 +67,7 @@ table(collapse_summary$yrs_collapsed)
 collapse_summary_zero_trunc = collapse_summary %>% filter(yrs_collapsed>0)
 table(collapse_summary_zero_trunc$yrs_collapsed)
 
-# Build posson model
+# Build poisson model
 model_p = glm(yrs_collapsed ~ ratio_yrs_overfished + ratio_yrs_low_stock, 
               offset(log(yrs_data)), 
               data=collapse_summary_zero_trunc, family="poisson") 
