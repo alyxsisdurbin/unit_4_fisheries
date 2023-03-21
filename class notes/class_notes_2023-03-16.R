@@ -104,4 +104,14 @@ collapse_yr = collapse %>%
   summarize(first_collapse_yr = min(year)) %>%
   ungroup()
 
-            
+ggplot(data=collapse_yr) +
+  geom_histogram(aes(x=first_collapse_yr), bandwidth=5)
+
+#cumulative number of stocks that collapsed in each year
+
+collapse_ts = collapse_yr %>%
+  count(first_collapse_yr) %>%
+  mutate(cum_first_collapse_yr = cumsum(n)) #creating a new frame and or variable in our data frame
+head(collapse_ts)
+ggplot(data=collapse_ts) +
+  geom_line(aes(x=first_collapse_yr, y=cum_first_collapse_yr))
