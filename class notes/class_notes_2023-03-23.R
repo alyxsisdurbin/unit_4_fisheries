@@ -68,3 +68,9 @@ ggbiplot(pen_pca, scale=1, groups=pen_meta$species, ellipse=T, alpha=0) + #alpha
   xlim(-3,3)
 
 pen_pca
+
+
+# Plot PC3 vs. PC4 to see if there is more interesting variation (there isn't...)
+ggbiplot(pen_pca, scale = 1, 
+         groups = pen_meta$species, 
+         ellipse = T, choices=c(3,4)) 
